@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Netiquette-Rollenspiel v5 – Chat + Score</title>
+<title>Netiquette-Rollenspiel v6 – Chat + Score + große Wortliste</title>
 <style>
   :root{--ink:#111827;--muted:#6b7280;--bg:#f6f7fb;--card:#fff;--accent:#2563eb;--ok:#10b981;--warn:#ef4444;}
   *{box-sizing:border-box}
@@ -23,7 +23,6 @@
   .btn{border:0;border-radius:10px;padding:12px 14px;background:var(--accent);color:#fff;cursor:pointer}
   .hint{font-size:.86rem;margin-top:6px;color:#374151}
   .tag{display:inline-block;font-size:.8rem;padding:2px 8px;border-radius:999px;background:#eef2ff;color:#3730a3;margin-right:6px}
-  .good{color:var(--ok)} .bad{color:var(--warn)}
   .summary{font-size:.9rem}
   .summary strong{display:inline-block;min-width:150px}
 </style>
@@ -72,21 +71,30 @@ function addYou(text){
 }
 function setScore(delta){ score += delta; scoreEl.textContent = score; }
 
-// --- Unhöflichkeitsvokabeln ---
+// --- Unhöflichkeitsvokabeln erweitert ---
 const RUDE_PATTERNS = [
-  "doof", "bl[oö]d", "dep+p", "trottel", "dumm(?:kopf)?", "hirn?los", "spacko", "spinner", "nervig",
-  "loser", "versager", "nullchecker", "peinlich", "armselig", "witzfigur",
-  "schei[sß][s$]e", "sch\\*?ei[sß]e", "kacke", "mistst[üu]ck", "arsch", "arschloch", "arschkriecher",
-  "penner", "pisser", "wichser", "kotzbrocken", "schlamper", "verpeilt",
-  "halt\\s*(?:die|deine)\\s*(?:klappe|fresse|gosch[e]?|schnauze)",
+  // Allgemeine Beleidigungen
+  "doof", "bl[oö]d", "trottel", "dumm(?:kopf)?", "hirn?los",
+  "spacko", "spinner", "loser", "versager", "nullchecker",
+  "peinlich", "armselig", "witzfigur", "opfer", "freak",
+  "banause", "lappen", "noob", "idiot", "dulli",
+
+  // Fäkalsprache & vulgär
+  "schei[sß][s$]e", "kacke", "kacka", "miststück",
+  "arsch", "arschloch", "arschkriecher", "penner",
+  "pisser", "wichser", "kotzbrocken", "schlamper",
+  "verpeilt", "furz", "rotz", "kotze", "pisse",
+
+  // Sexuelle Schimpfwörter
+  "schlampe", "hure", "fotze",
+
+  // Aggressive Phrasen
+  "halt\\s*die\\s*(klappe|fresse|schnauze|gosch[e]?)",
+  "reiß\\s*die\\s*(klappe|fresse)\\s*nicht",
   "h[äa]lt(?:'s|\\s*das)?\\s*maul",
-  "reiß\\s*die\\s*(?:klappe|fresse)\\s*nicht",
   "leck\\s*mich",
   "verpiss\\s*dich",
-  "zieh\\s*leine",
-  "noob", "lappen", "opfer", "freak", "banause", "trott[ei]g",
-  "du\\s*bist\\s*so\\s*(?:dumm|bl[oö]d|peinlich|nervig|unf[aä]hig)",
-  "wie\\s*bl[oö]d\\s*bist\\s*du"
+  "zieh\\s*leine"
 ].map(s => new RegExp(s, "i"));
 
 function analyzeMessage(msg){
