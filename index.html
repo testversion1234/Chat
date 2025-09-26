@@ -1,161 +1,166 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Netiquette-Rollenspiel v6 – Chat + Score + große Wortliste</title>
-<style>
-  :root{--ink:#111827;--muted:#6b7280;--bg:#f6f7fb;--card:#fff;--accent:#2563eb;--ok:#10b981;--warn:#ef4444;}
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-  header{background:linear-gradient(90deg,#4f46e5,#2563eb);color:#fff;padding:18px 20px;text-align:center}
-  header h1{margin:6px 0 0;font-size:1.15rem}
-  header .scorebox{display:inline-block;margin-top:8px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.18);backdrop-filter:blur(6px)}
-  main{max-width:920px;margin:16px auto;padding:0 12px 24px}
-  .card{background:var(--card);border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.06);padding:16px;margin-bottom:14px}
-  .row{display:flex;gap:12px;margin:10px 0}
-  .bot,.you{max-width:78%;padding:10px 12px;border-radius:12px;line-height:1.45}
-  .bot{background:#eef2ff;border-top-left-radius:0}
-  .you{background:#e5fff4;border-top-right-radius:0;margin-left:auto}
-  .muted{color:var(--muted);font-size:.92rem}
-  .controls{display:flex;gap:8px;margin-top:10px}
-  input[type="text"]{flex:1;padding:12px;border:1px solid #d1d5db;border-radius:10px}
-  .btn{border:0;border-radius:10px;padding:12px 14px;background:var(--accent);color:#fff;cursor:pointer}
-  .hint{font-size:.86rem;margin-top:6px;color:#374151}
-  .tag{display:inline-block;font-size:.8rem;padding:2px 8px;border-radius:999px;background:#eef2ff;color:#3730a3;margin-right:6px}
-  .summary{font-size:.9rem}
-  .summary strong{display:inline-block;min-width:150px}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Netiquette-Rollenspiel v9 – Mehrere Szenen</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;--card:#ffffff;--ink:#0f172a;--muted:#64748b;
+      --accent:#2563eb;--accent2:#4f46e5;--ok:#10b981;--warn:#ef4444;
+      --bubble:#eef2ff;--you:#e7f8f0;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;background:var(--bg);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      line-height:1.55;color:var(--ink);
+    }
+    header{
+      padding:28px 16px 24px;
+      background:linear-gradient(90deg,var(--accent2),var(--accent));
+      color:#fff;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.2);
+    }
+    .logo{
+      width:110px;height:110px;border-radius:50%;border:5px solid #fff;
+      display:block;margin:0 auto 12px;box-shadow:0 6px 20px rgba(0,0,0,.15)
+    }
+    .scorebox{margin-top:8px;padding:6px 12px;border-radius:999px;
+      background:rgba(255,255,255,.18);display:inline-block;font-weight:700}
+    main{max-width:960px;margin:-18px auto 28px;padding:0 14px}
+    .card{background:#fff;border-radius:16px;padding:18px;
+      box-shadow:0 6px 20px rgba(0,0,0,.08);margin-bottom:16px}
+    .tag{display:inline-block;padding:4px 10px;border-radius:999px;
+      background:#eef2ff;color:#3730a3;font-size:.8rem;margin-bottom:8px}
+    .intro h2{margin:.2rem 0 .4rem;font-size:1.1rem}
+    .ok{color:var(--ok);font-weight:600}
+    .bad{color:var(--warn);font-weight:600}
+    #chat{max-height:420px;overflow:auto;padding-right:4px}
+    .row{display:flex;gap:12px;margin:10px 0}
+    .bot,.you{max-width:78%;padding:12px 14px;border-radius:14px;
+      box-shadow:0 4px 14px rgba(15,23,42,.06)}
+    .bot{background:var(--bubble);border-top-left-radius:4px}
+    .you{background:var(--you);margin-left:auto;border-top-right-radius:4px}
+    .controls{display:flex;gap:10px;margin-top:12px}
+    .field{flex:1;padding:12px 14px;border:1px solid #dbe2ee;
+      border-radius:12px;font-size:1rem}
+    .btn{padding:12px 16px;border:none;border-radius:12px;cursor:pointer;
+      background:var(--accent);color:#fff;font-weight:700}
+    .summary{font-size:.95rem;color:var(--muted)}
+  </style>
 </head>
 <body>
   <header>
+    <!-- Eingebettetes Logo -->
+    <img class="logo" alt="Logo"
+         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAYAAAA+7o5AAAAACXBIWXMAABYlAAAWJQFJUiTwAAAFw0lEQVR4nO3dQW7bMBCF4dYdE/AH9tI7e6eBGwIVnWCjFJKx6M/sZ+SR5ix0vzHST4AAAAAAAAAAAAAADg52Sp2u+zzS23RrznxXdcJcn/O9IdmV6sMPe0ytfUldPH5HnpDauRpE/evULlbiJczjchDsy02y3L8PaJXYr/wvOErVrbM9eU7M4j3jTe4c86M6OZLnQ53YnmVthWlWt3s4/s6qH88knL/vzzTevnb+1p3vp3L7jG5meTPt9sH/nRr9Rta9qJbRqbN7s/bu7KtW0Kf3ljbfwrn16LZrbV/q42N/J+SeixG5V8zxx4hXPnbN6Wqd9I5i0qz5xd7e62eHuWutZr0UnOr9NbqOqD/V9Yl99KjaZ78lTt3F/XrK2KNdMvgLnpnV9FOzAqLrCucMvh0sVwGOuXM/hlyr6vEZk8JrHOXZeWvhNe/X3U/hz8d/KZ1Ush05dM+STw3THl9I+qLg7W/ErI/k9+U4PLxP+fWve9cNRPiZu5eWp4ZtN4lfZ4udmnFFPteY8OpddS6KxtXqqTg8X/tPVVePrPZnrmeKTnruPrk9/wcuEr7ffVmuz1O0X/3rm/UcfhW+b19tiyYHP/5XlY3H/jnzU73UP82Rk7P1xXqnfNXOVuYz9D6t60+7ufzOZte6fq3HlmM/4mFZ1tzXJ5kHzns/8Rt2WbQnP2pGlzVbNP1zXXO6RfOrfF4kQ7bWvH3tef4fs3d1Oqa/x+vgN3K/b95oXWt2pfkJXfXyTj8AAAAAAAAAAAAAABAz/YHaBgdr5D6J4AAAAASUVORK5CYII=" />
     <div class="scorebox">Score: <span id="score">0</span></div>
-    <h1>Netiquette-Rollenspiel · Chat mit Feedback</h1>
-    <div class="muted">Schreibe selbst – der Bot prüft Ton & Netiquette.</div>
+    <h1>Netiquette-Rollenspiel</h1>
   </header>
+
   <main>
-    <section class="card" id="chatCard">
-      <div id="chat"></div>
-      <div class="controls">
-        <input id="userText" type="text" placeholder="Schreibe deine Antwort (höflich, keine ALL CAPS/!!!, Emojis sparsam)…">
-        <button class="btn" id="send">Senden</button>
-      </div>
-      <div class="hint muted">Belohnt: Ich-Botschaft, Nachfragen, Deeskalation · Abzug: BRÜLLEN (ALL CAPS), !!!/???-Flut, Emoji-Flut, Unhöfliches, DU-Unterstellung.</div>
+    <!-- Einleitung -->
+    <section class="card intro">
+      <span class="tag">Einführung</span>
+      <h2>Willkommen – so arbeitest du im Chat</h2>
+      <p>Hier übst du, wie du <b>freundlich und respektvoll</b> online schreibst. Stell dir vor, du bist im Klassenchat.</p>
+      <h3>Deine Regeln</h3>
+      <ul>
+        <li><span class="ok">Ich-Botschaften:</span> „Ich finde…“, „Ich denke…“</li>
+        <li><span class="ok">Nachfragen:</span> „Kannst du das erklären?“</li>
+        <li><span class="ok">Deeskalation & Respekt:</span> „Lass uns ruhig bleiben.“</li>
+        <li><span class="ok">Lob & Bestätigung:</span> „Gut gemacht!“, „Das stimmt.“</li>
+        <li><span class="bad">Vermeiden:</span> BRÜLLEN in ALL CAPS, !!!/???, Emoji-Flut, DU-Unterstellungen, Beleidigungen.</li>
+      </ul>
     </section>
 
+    <!-- Chat -->
     <section class="card">
-      <div class="tag">Live-Auswertung</div>
-      <div class="summary" id="summary"></div>
+      <span class="tag">Chat</span>
+      <div id="chat"></div>
+      <div class="controls">
+        <input id="userText" class="field" type="text" placeholder="Schreibe deine Antwort..." />
+        <button class="btn" id="send">Senden</button>
+      </div>
+    </section>
+
+    <!-- Auswertung -->
+    <section class="card">
+      <span class="tag">Live-Auswertung</span>
+      <div id="summary" class="summary"></div>
     </section>
   </main>
 
-<script>
-let score = 0;
-const chat = document.getElementById('chat');
-const input = document.getElementById('userText');
-const sendBtn = document.getElementById('send');
-const scoreEl = document.getElementById('score');
-const summary = document.getElementById('summary');
+  <script>
+    let score = 0;
+    const chat=document.getElementById('chat');
+    const input=document.getElementById('userText');
+    const sendBtn=document.getElementById('send');
+    const scoreEl=document.getElementById('score');
+    const summary=document.getElementById('summary');
+    const mistakes={caps:0,punct:0,emoji:0,rude:0,du:0};
 
-const mistakes = {caps:0,punct:0,emoji:0,rude:0,du:0};
+    const SCENES=[
+      "Paul: „Hä? Deine Aufgabe ist doch voll falsch! 🙄“",
+      "Lisa: „Ey, du bist so langsam, mit dir kann man nix anfangen!“",
+      "Max: „Na toll, wieder typisch von dir 😂😂😂“",
+      "Anna: „Dein Referat war langweilig.“"
+    ];
+    let sceneIndex=0;
 
-function addBot(text){
-  const row = document.createElement('div'); row.className = 'row';
-  const bubble = document.createElement('div'); bubble.className='bot'; bubble.textContent = text;
-  row.appendChild(bubble); chat.appendChild(row); chat.scrollTop = chat.scrollHeight;
-}
-function addYou(text){
-  const row = document.createElement('div'); row.className='row';
-  const bubble = document.createElement('div'); bubble.className='you'; bubble.textContent = text;
-  row.appendChild(bubble); chat.appendChild(row); chat.scrollTop = chat.scrollHeight;
-}
-function setScore(delta){ score += delta; scoreEl.textContent = score; }
+    const RUDE_PATTERNS=[
+      "doof","bl[oö]d","trottel","dumm(?:kopf)?","hirn?los",
+      "spacko","spinner","loser","versager","nullchecker",
+      "peinlich","armselig","witzfigur","opfer","freak",
+      "banause","lappen","noob","idiot","dulli",
+      "schei[sß][s$]e","kacke","kacka","miststück",
+      "arsch","arschloch","penner","pisser","wichser","schlampe","hure","fotze"
+    ].map(s=>new RegExp(s,"i"));
 
-// --- Unhöflichkeitsvokabeln erweitert ---
-const RUDE_PATTERNS = [
-  // Allgemeine Beleidigungen
-  "doof", "bl[oö]d", "trottel", "dumm(?:kopf)?", "hirn?los",
-  "spacko", "spinner", "loser", "versager", "nullchecker",
-  "peinlich", "armselig", "witzfigur", "opfer", "freak",
-  "banause", "lappen", "noob", "idiot", "dulli",
+    function addBot(text){const row=document.createElement('div');row.className='row';
+      const b=document.createElement('div');b.className='bot';b.textContent=text;
+      row.appendChild(b);chat.appendChild(row);chat.scrollTop=chat.scrollHeight;}
+    function addYou(text){const row=document.createElement('div');row.className='row';
+      const y=document.createElement('div');y.className='you';y.textContent=text;
+      row.appendChild(y);chat.appendChild(row);chat.scrollTop=chat.scrollHeight;}
+    function setScore(delta){score+=delta;scoreEl.textContent=score;}
+    function updateSummary(){summary.innerHTML="BRÜLLEN: "+mistakes.caps+" · !!!/???: "+mistakes.punct+" · Emojis: "+mistakes.emoji+" · Unhöflich: "+mistakes.rude+" · DU-Unterstellung: "+mistakes.du;}
 
-  // Fäkalsprache & vulgär
-  "schei[sß][s$]e", "kacke", "kacka", "miststück",
-  "arsch", "arschloch", "arschkriecher", "penner",
-  "pisser", "wichser", "kotzbrocken", "schlamper",
-  "verpeilt", "furz", "rotz", "kotze", "pisse",
+    function analyzeMessage(msg){
+      const result={delta:0,notes:[]};
+      if(/[A-ZÄÖÜ]{4,}/.test(msg)&&msg===msg.toUpperCase()){result.delta-=1;result.notes.push("⚠️ Bitte nicht BRÜLLEN.");mistakes.caps++;}
+      if((msg.match(/!/g)||[]).length>=3||(msg.match(/\?/g)||[]).length>=3||/[!?]{2,}/.test(msg)){result.delta-=1;result.notes.push("⚠️ Zu viele Satzzeichen.");mistakes.punct++;}
+      if((msg.match(/[\u{1F300}-\u{1FAFF}]/gu)||[]).length>=3){result.delta-=1;result.notes.push("⚠️ Zu viele Emojis.");mistakes.emoji++;}
+      if(RUDE_PATTERNS.some(rx=>rx.test(msg))){result.delta-=1;result.notes.push("⚠️ Unhöfliche/vulgäre Formulierung vermeiden.");mistakes.rude++;}
+      if(/\bdu\b.*(bist|machst|hast).*(immer|nie|schlecht|falsch)/i.test(msg)){result.delta-=1;result.notes.push("⚠️ Vermeide DU-Unterstellungen.");mistakes.du++;}
+      if(/ich\s*(finde|fühle|denke|verstehe|möchte|würde|glaube|habe|wünsche)/i.test(msg)){result.delta+=1;result.notes.push("✅ Gute Ich-Botschaft.");}
+      if(/(kannst du|könntest du|was genau|wie meinst du|bitte genauer)/i.test(msg)){result.delta+=1;result.notes.push("✅ Nachfragen erkannt.");}
+      if(/(sorry|entschuldigung|lass uns|ruhig|kein problem|klären|gemeinsam)/i.test(msg)){result.delta+=1;result.notes.push("✅ Deeskalation.");}
+      if(/(gut gemacht|das stimmt|korrekt|richtig|gute idee|super|toll)/i.test(msg)){result.delta+=1;result.notes.push("✅ Lob/Bestätigung.");}
+      return result;
+    }
 
-  // Sexuelle Schimpfwörter
-  "schlampe", "hure", "fotze",
+    function nextScene(){
+      if(sceneIndex<SCENES.length){addBot(SCENES[sceneIndex]);sceneIndex++;}
+      else{addBot("🎉 Super! Du hast alle Situationen durchgespielt.");}
+    }
 
-  // Aggressive Phrasen
-  "halt\\s*die\\s*(klappe|fresse|schnauze|gosch[e]?)",
-  "reiß\\s*die\\s*(klappe|fresse)\\s*nicht",
-  "h[äa]lt(?:'s|\\s*das)?\\s*maul",
-  "leck\\s*mich",
-  "verpiss\\s*dich",
-  "zieh\\s*leine"
-].map(s => new RegExp(s, "i"));
+    function handleSend(){
+      const text=(input.value||"").trim();if(!text)return;
+      addYou(text);
+      const evaln=analyzeMessage(text);
+      setScore(evaln.delta);
+      addBot(evaln.notes.length?evaln.notes.join(" ")+" (Score: "+score+")":"👍 Sehr höflich! (Score: "+score+")");
+      input.value="";updateSummary();
+      setTimeout(nextScene,1500);
+    }
 
-function analyzeMessage(msg){
-  const result = {delta:0, notes:[]};
+    sendBtn.onclick=handleSend;
+    input.addEventListener('keydown',e=>{if(e.key==='Enter')handleSend();});
 
-  if(/[A-ZÄÖÜ]{4,}/.test(msg) && (msg === msg.toUpperCase())){
-    result.delta -= 1; result.notes.push("⚠️ Bitte nicht BRÜLLEN (ALL CAPS)."); mistakes.caps++; 
-  }
-  if((msg.match(/!/g)||[]).length >= 3 || (msg.match(/\?/g)||[]).length >= 3 || /[!?]{2,}/.test(msg)){
-    result.delta -= 1; result.notes.push("⚠️ Zu viele Satzzeichen (!!!/???)."); mistakes.punct++; 
-  }
-  const emojis = msg.match(/[\u{1F300}-\u{1FAFF}]/gu) || [];
-  if(emojis.length >= 3){ result.delta -= 1; result.notes.push("⚠️ Zu viele Emojis – nutze sie sparsam."); mistakes.emoji++; }
-  if(RUDE_PATTERNS.some(rx => rx.test(msg))){
-    result.delta -= 1; result.notes.push("⚠️ Unhöfliche/vulgäre Formulierung vermeiden."); mistakes.rude++;
-  }
-  if(/\bdu\b.*(bist|machst|hast).*(immer|nie|total|völlig|komplett|schlecht|falsch)/i.test(msg)){
-    result.delta -= 1; result.notes.push("⚠️ Vermeide DU-Unterstellungen – lieber Ich-Botschaft."); mistakes.du++;
-  }
-
-  if(/ich\s*(finde|fühle|denke|verstehe|möchte|würde|kann|glaube|merke|habe|wünsche)/i.test(msg)){
-    result.delta += 1; result.notes.push("✅ Gute Ich-Botschaft.");
-  }
-  if(/(kannst du|könntest du|was genau|wie meinst du|magst du|würdest du|hilft mir|erklär|erkläre|bitte genauer)/i.test(msg)){
-    result.delta += 1; result.notes.push("✅ Nachfragen erkannt.");
-  }
-  if(/(sorry|entschuldigung|tut mir leid|lass uns|sachlich|ruhig|kein problem|klären|lösung|gemeinsam)/i.test(msg)){
-    result.delta += 1; result.notes.push("✅ Deeskalation.");
-  }
-
-  return result;
-}
-
-function updateSummary(){
-  summary.innerHTML = `
-    <div><strong>BRÜLLEN:</strong> ${mistakes.caps} · <strong>!!!/???:</strong> ${mistakes.punct} · <strong>Emojis:</strong> ${mistakes.emoji} · <strong>Unhöflich:</strong> ${mistakes.rude} · <strong>DU-Unterstellung:</strong> ${mistakes.du}</div>
-  `;
-}
-
-function handleSend(){
-  const text = (input.value || "").trim();
-  if(!text){ return; }
-  addYou(text);
-
-  const evaln = analyzeMessage(text);
-  setScore(evaln.delta);
-
-  if(evaln.notes.length){
-    addBot(evaln.notes.join(" ")+" (Score: "+score+")");
-  } else {
-    addBot("👍 Sehr höflich! (Score: "+score+")");
-  }
-
-  input.value = "";
-  updateSummary();
-}
-
-sendBtn.onclick = handleSend;
-input.addEventListener("keydown", e => { if(e.key === "Enter") handleSend(); });
-
-addBot('Paul: „Hä? Deine Aufgabe ist doch voll falsch! 🙄“ — Antworte höflich (Ich-Botschaft/Nachfrage/Deeskalation).');
-updateSummary();
-</script>
+    // Start
+    nextScene();
+    updateSummary();
+  </script>
 </body>
+</html>
